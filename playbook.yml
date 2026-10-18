@@ -1,0 +1,45 @@
+---
+- name: Automatizacion de tareas en los 5 servidores Ubuntu
+  hosts: servidores
+  become: true
+  tasks:
+    - name: 1. Actualizar los paquetes de APT del sistema operativo
+      apt:
+        update_cache: true
+        upgrade: safe
+
+    - name: 2. Crear el usuario itla en cada servidor
+      user:
+        name: itla
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: 3. Crear la carpeta llamada "app" en cada servidor
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: itla
+        group: itla
+        mode: "0755"
+      loop:
+        - /app
+        - /home/itla/app
+
+    - name: 4. Crear el archivo hola.txt en la carpeta app en cada servidor
+      copy:
+        content: "¡Hola desde Ansible! Servidor configurado automaticamente para ITLA ({{ inventory_hostname }}).\n"
+        dest: "{{ item }}"
+        owner: itla
+        group: itla
+        mode: "0644"
+      loop:
+        - /app/hola.txt
+        - /home/itla/app/hola.txt
+
+    - name: 5. Instalar las aplicaciones cowsay y htop en cada servidor
+      apt:
+        name:
+          - cowsay
+          - htop
+        state: present

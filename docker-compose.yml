@@ -1,0 +1,67 @@
+services:
+  servidor1:
+    build: .
+    image: ubuntu-ssh-ansible:latest
+    container_name: ubuntu-servidor1
+    hostname: servidor1
+    ports:
+      - "2221:22"
+    networks:
+      red_ansible:
+        ipv4_address: 172.28.0.11
+    restart: always
+
+  servidor2:
+    build: .
+    image: ubuntu-ssh-ansible:latest
+    container_name: ubuntu-servidor2
+    hostname: servidor2
+    ports:
+      - "2222:22"
+    networks:
+      red_ansible:
+        ipv4_address: 172.28.0.12
+    restart: always
+
+  servidor3:
+    build: .
+    image: ubuntu-ssh-ansible:latest
+    container_name: ubuntu-servidor3
+    hostname: servidor3
+    ports:
+      - "2223:22"
+    networks:
+      red_ansible:
+        ipv4_address: 172.28.0.13
+    restart: always
+
+  servidor4:
+    build: .
+    image: ubuntu-ssh-ansible:latest
+    container_name: ubuntu-servidor4
+    hostname: servidor4
+    ports:
+      - "2224:22"
+    networks:
+      red_ansible:
+        ipv4_address: 172.28.0.14
+    restart: always
+
+  servidor5:
+    build: .
+    image: ubuntu-ssh-ansible:latest
+    container_name: ubuntu-servidor5
+    hostname: servidor5
+    ports:
+      - "2225:22"
+    networks:
+      red_ansible:
+        ipv4_address: 172.28.0.15
+    restart: always
+
+networks:
+  red_ansible:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
